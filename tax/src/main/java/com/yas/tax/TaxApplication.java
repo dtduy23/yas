@@ -14,3 +14,4 @@ public class TaxApplication {
         SpringApplication.run(TaxApplication.class, args);
     }
 }
+// CI test
