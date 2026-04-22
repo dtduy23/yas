@@ -16,3 +16,4 @@ public class TaxApplication {
 }
 // CI test
 // auto trigger test
+// test multi-stage build
