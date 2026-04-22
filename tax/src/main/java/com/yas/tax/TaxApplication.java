@@ -15,3 +15,4 @@ public class TaxApplication {
     }
 }
 // CI test
+// auto trigger test
