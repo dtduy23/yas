@@ -55,7 +55,7 @@ spec:
         - name: init-sql
           mountPath: /docker-entrypoint-initdb.d
         resources:
-          requests: { memory: "512Mi", cpu: "200m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "1Gi", cpu: "500m" }
       volumes:
       - name: init-sql
@@ -94,7 +94,7 @@ spec:
         ports:
         - containerPort: 6379
         resources:
-          requests: { memory: "128Mi", cpu: "100m" }
+          requests: { memory: "32Mi", cpu: "25m" }
           limits: { memory: "256Mi", cpu: "300m" }
 ---
 apiVersion: v1
@@ -129,7 +129,7 @@ spec:
         ports:
         - containerPort: 2181
         resources:
-          requests: { memory: "256Mi", cpu: "100m" }
+          requests: { memory: "128Mi", cpu: "50m" }
           limits: { memory: "512Mi", cpu: "300m" }
 ---
 apiVersion: v1
@@ -173,7 +173,7 @@ spec:
         - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
           value: "1"
         resources:
-          requests: { memory: "512Mi", cpu: "200m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "1Gi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -222,7 +222,7 @@ spec:
         - name: KC_DB_PASSWORD
           value: admin
         resources:
-          requests: { memory: "512Mi", cpu: "200m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "1Gi", cpu: "500m" }
 ---
 apiVersion: v1
