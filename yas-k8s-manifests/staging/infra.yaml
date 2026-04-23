@@ -1,0 +1,238 @@
+# YAS Staging Environment - Infrastructure
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yas-staging
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+  namespace: yas-staging
+data:
+  init.sql: |
+    CREATE DATABASE product;
+    CREATE DATABASE media;
+    CREATE DATABASE customer;
+    CREATE DATABASE cart;
+    CREATE DATABASE "order";
+    CREATE DATABASE payment;
+    CREATE DATABASE rating;
+    CREATE DATABASE location;
+    CREATE DATABASE inventory;
+    CREATE DATABASE tax;
+    CREATE DATABASE promotion;
+    CREATE DATABASE keycloak;
+    CREATE DATABASE search;
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: yas-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: debezium/postgres:16-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value: admin
+        - name: POSTGRES_PASSWORD
+          value: admin
+        volumeMounts:
+        - name: init-sql
+          mountPath: /docker-entrypoint-initdb.d
+        resources:
+          requests: { memory: "512Mi", cpu: "200m" }
+          limits: { memory: "1Gi", cpu: "500m" }
+      volumes:
+      - name: init-sql
+        configMap:
+          name: postgres-init
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: yas-staging
+spec:
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: yas-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7.4.1-alpine
+        ports:
+        - containerPort: 6379
+        resources:
+          requests: { memory: "128Mi", cpu: "100m" }
+          limits: { memory: "256Mi", cpu: "300m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: yas-staging
+spec:
+  selector:
+    app: redis
+  ports:
+  - port: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+  namespace: yas-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+      - name: zookeeper
+        image: debezium/zookeeper:2.7.3.Final
+        ports:
+        - containerPort: 2181
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "300m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+  namespace: yas-staging
+spec:
+  selector:
+    app: zookeeper
+  ports:
+  - port: 2181
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka
+  namespace: yas-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+      - name: kafka
+        image: confluentinc/cp-kafka:7.7.1
+        ports:
+        - containerPort: 9092
+        env:
+        - name: KAFKA_BROKER_ID
+          value: "1"
+        - name: KAFKA_ZOOKEEPER_CONNECT
+          value: zookeeper:2181
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: PLAINTEXT://kafka:9092
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "1"
+        resources:
+          requests: { memory: "512Mi", cpu: "200m" }
+          limits: { memory: "1Gi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+  namespace: yas-staging
+spec:
+  selector:
+    app: kafka
+  ports:
+  - port: 9092
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity
+  namespace: yas-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identity
+  template:
+    metadata:
+      labels:
+        app: identity
+    spec:
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:26.0.2
+        args: ["start-dev"]
+        ports:
+        - containerPort: 8080
+        env:
+        - name: KC_BOOTSTRAP_ADMIN_USERNAME
+          value: admin
+        - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+          value: admin
+        - name: KC_DB
+          value: postgres
+        - name: KC_DB_URL
+          value: jdbc:postgresql://postgres:5432/keycloak
+        - name: KC_DB_USERNAME
+          value: admin
+        - name: KC_DB_PASSWORD
+          value: admin
+        resources:
+          requests: { memory: "512Mi", cpu: "200m" }
+          limits: { memory: "1Gi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity
+  namespace: yas-staging
+spec:
+  selector:
+    app: identity
+  ports:
+  - port: 80
+    targetPort: 8080

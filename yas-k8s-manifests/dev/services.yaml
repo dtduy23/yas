@@ -1,0 +1,657 @@
+# YAS Dev Environment - Backend Services (13 services)
+# Image tag: branch name (e.g. dev_product_v2)
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+  template:
+    metadata:
+      labels:
+        app: product
+    spec:
+      containers:
+      - name: product
+        image: duyd4010/yas-product:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/product
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product
+  namespace: yas-dev
+spec:
+  selector:
+    app: product
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: media
+  template:
+    metadata:
+      labels:
+        app: media
+    spec:
+      containers:
+      - name: media
+        image: duyd4010/yas-media:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/media
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: media
+  namespace: yas-dev
+spec:
+  selector:
+    app: media
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart
+  template:
+    metadata:
+      labels:
+        app: cart
+    spec:
+      containers:
+      - name: cart
+        image: duyd4010/yas-cart:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/cart
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart
+  namespace: yas-dev
+spec:
+  selector:
+    app: cart
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer
+  template:
+    metadata:
+      labels:
+        app: customer
+    spec:
+      containers:
+      - name: customer
+        image: duyd4010/yas-customer:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/customer
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer
+  namespace: yas-dev
+spec:
+  selector:
+    app: customer
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order
+  template:
+    metadata:
+      labels:
+        app: order
+    spec:
+      containers:
+      - name: order
+        image: duyd4010/yas-order:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/order
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order
+  namespace: yas-dev
+spec:
+  selector:
+    app: order
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment
+  template:
+    metadata:
+      labels:
+        app: payment
+    spec:
+      containers:
+      - name: payment
+        image: duyd4010/yas-payment:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/payment
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+  namespace: yas-dev
+spec:
+  selector:
+    app: payment
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rating
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rating
+  template:
+    metadata:
+      labels:
+        app: rating
+    spec:
+      containers:
+      - name: rating
+        image: duyd4010/yas-rating:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/rating
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rating
+  namespace: yas-dev
+spec:
+  selector:
+    app: rating
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: location
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: location
+  template:
+    metadata:
+      labels:
+        app: location
+    spec:
+      containers:
+      - name: location
+        image: duyd4010/yas-location:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/location
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: location
+  namespace: yas-dev
+spec:
+  selector:
+    app: location
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      labels:
+        app: inventory
+    spec:
+      containers:
+      - name: inventory
+        image: duyd4010/yas-inventory:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/inventory
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory
+  namespace: yas-dev
+spec:
+  selector:
+    app: inventory
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tax
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tax
+  template:
+    metadata:
+      labels:
+        app: tax
+    spec:
+      containers:
+      - name: tax
+        image: duyd4010/yas-tax:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/tax
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tax
+  namespace: yas-dev
+spec:
+  selector:
+    app: tax
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: promotion
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: promotion
+  template:
+    metadata:
+      labels:
+        app: promotion
+    spec:
+      containers:
+      - name: promotion
+        image: duyd4010/yas-promotion:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/promotion
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: promotion
+  namespace: yas-dev
+spec:
+  selector:
+    app: promotion
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storefront-bff
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: storefront-bff
+  template:
+    metadata:
+      labels:
+        app: storefront-bff
+    spec:
+      containers:
+      - name: storefront-bff
+        image: duyd4010/yas-storefront-bff:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/storefront-bff
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storefront-bff
+  namespace: yas-dev
+spec:
+  selector:
+    app: storefront-bff
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backoffice-bff
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backoffice-bff
+  template:
+    metadata:
+      labels:
+        app: backoffice-bff
+    spec:
+      containers:
+      - name: backoffice-bff
+        image: duyd4010/yas-backoffice-bff:main
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://postgres:5432/backoffice-bff
+        - name: SPRING_DATASOURCE_USERNAME
+          value: admin
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: admin
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backoffice-bff
+  namespace: yas-dev
+spec:
+  selector:
+    app: backoffice-bff
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+# Nginx API Gateway for dev
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: yas-dev
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name api.yas.local;
+      location /product/  { proxy_pass http://product.yas-dev.svc.cluster.local; }
+      location /media/    { proxy_pass http://media.yas-dev.svc.cluster.local; }
+      location /cart/     { proxy_pass http://cart.yas-dev.svc.cluster.local; }
+      location /customer/ { proxy_pass http://customer.yas-dev.svc.cluster.local; }
+      location /order/    { proxy_pass http://order.yas-dev.svc.cluster.local; }
+      location /payment/  { proxy_pass http://payment.yas-dev.svc.cluster.local; }
+      location /tax/      { proxy_pass http://tax.yas-dev.svc.cluster.local; }
+    }
+    server {
+      listen 80;
+      server_name identity.yas.local;
+      location / {
+        proxy_pass http://identity.yas-dev.svc.cluster.local;
+        proxy_set_header Host $host;
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.27.2
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: yas-dev
+spec:
+  type: NodePort
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30080
