@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+  namespace: yas-dev
+data:
+  init.sql: |
+    CREATE DATABASE product;
+    CREATE DATABASE media;
+    CREATE DATABASE customer;
+    CREATE DATABASE cart;
+    CREATE DATABASE "order";
+    CREATE DATABASE payment;
+    CREATE DATABASE rating;
+    CREATE DATABASE location;
+    CREATE DATABASE inventory;
+    CREATE DATABASE tax;
+    CREATE DATABASE promotion;
+    CREATE DATABASE keycloak;
+    CREATE DATABASE search;
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: yas-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: debezium/postgres:16-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value: admin
+        - name: POSTGRES_PASSWORD
+          value: admin
+        volumeMounts:
+        - name: init-sql
+          mountPath: /docker-entrypoint-initdb.d
+        resources:
+          requests: { memory: "256Mi", cpu: "100m" }
+          limits: { memory: "512Mi", cpu: "500m" }
+      volumes:
+      - name: init-sql
+        configMap:
+          name: postgres-init
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: yas-dev
+spec:
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
