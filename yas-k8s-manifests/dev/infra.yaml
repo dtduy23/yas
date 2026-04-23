@@ -44,6 +44,7 @@ spec:
       containers:
       - name: postgres
         image: debezium/postgres:16-alpine
+        args: ["-c", "max_connections=300"]
         ports:
         - containerPort: 5432
         env:
