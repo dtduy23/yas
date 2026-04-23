@@ -29,3 +29,5 @@ hs_err_pid*
 .settings*
 .vscode
 *.iml
+project2_full_guide.md
+yas-k8s-manifests/
