@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: product
-        image: duyd4010/yas-product:main
+        image: duyd4010/yas-product:1235eb3a
         ports:
         - containerPort: 8080
         env:
