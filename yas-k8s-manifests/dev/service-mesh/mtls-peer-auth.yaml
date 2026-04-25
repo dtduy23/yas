@@ -1,0 +1,11 @@
+# PeerAuthentication - Bật mTLS STRICT cho toàn bộ namespace yas-dev
+# Tất cả traffic service-to-service sẽ được mã hóa TLS tự động
+# Các pod không có sidecar (Envoy) sẽ KHÔNG thể giao tiếp với các pod trong mesh
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: yas-dev
+spec:
+  mtls:
+    mode: STRICT

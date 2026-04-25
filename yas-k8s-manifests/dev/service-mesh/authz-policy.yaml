@@ -1,0 +1,60 @@
+# Authorization Policy - Kiểm soát service-to-service access
+# Khi có ALLOW policy, Istio sẽ tự động DENY tất cả request không match rule
+#
+# Policy 1: Chỉ cho phép nginx, order, storefront-bff gọi đến cart
+# Policy 2: Chỉ cho phép nginx, cart, storefront-bff gọi đến product
+# Policy 3: Chỉ cho phép nginx, order gọi đến payment
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: cart-access-policy
+  namespace: yas-dev
+spec:
+  selector:
+    matchLabels:
+      app: cart
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/yas-dev/sa/order"
+        - "cluster.local/ns/yas-dev/sa/storefront-bff"
+        - "cluster.local/ns/yas-dev/sa/nginx"
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: product-access-policy
+  namespace: yas-dev
+spec:
+  selector:
+    matchLabels:
+      app: product
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/yas-dev/sa/cart"
+        - "cluster.local/ns/yas-dev/sa/storefront-bff"
+        - "cluster.local/ns/yas-dev/sa/backoffice-bff"
+        - "cluster.local/ns/yas-dev/sa/nginx"
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: payment-access-policy
+  namespace: yas-dev
+spec:
+  selector:
+    matchLabels:
+      app: payment
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/yas-dev/sa/order"
+        - "cluster.local/ns/yas-dev/sa/nginx"

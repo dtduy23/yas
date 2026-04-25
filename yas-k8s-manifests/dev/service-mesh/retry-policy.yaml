@@ -1,0 +1,75 @@
+# VirtualService Retry Policy
+# Khi service trả lỗi 5xx hoặc kết nối thất bại,
+# Envoy sidecar sẽ tự động retry mà không cần sửa code ứng dụng
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: product-vs
+  namespace: yas-dev
+spec:
+  hosts:
+  - product
+  http:
+  - route:
+    - destination:
+        host: product
+    retries:
+      attempts: 3
+      perTryTimeout: 5s
+      retryOn: 5xx,connect-failure,refused-stream
+    timeout: 20s
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: cart-vs
+  namespace: yas-dev
+spec:
+  hosts:
+  - cart
+  http:
+  - route:
+    - destination:
+        host: cart
+    retries:
+      attempts: 3
+      perTryTimeout: 5s
+      retryOn: 5xx,connect-failure,refused-stream
+    timeout: 20s
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: order-vs
+  namespace: yas-dev
+spec:
+  hosts:
+  - order
+  http:
+  - route:
+    - destination:
+        host: order
+    retries:
+      attempts: 3
+      perTryTimeout: 5s
+      retryOn: 5xx,connect-failure,refused-stream
+    timeout: 20s
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: payment-vs
+  namespace: yas-dev
+spec:
+  hosts:
+  - payment
+  http:
+  - route:
+    - destination:
+        host: payment
+    retries:
+      attempts: 3
+      perTryTimeout: 5s
+      retryOn: 5xx,connect-failure,refused-stream
+    timeout: 20s
