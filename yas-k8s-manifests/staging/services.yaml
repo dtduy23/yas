@@ -7,6 +7,8 @@ metadata:
   name: product
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -31,7 +33,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -52,6 +54,8 @@ metadata:
   name: media
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -76,7 +80,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -97,6 +101,8 @@ metadata:
   name: cart
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -121,7 +127,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -142,6 +148,8 @@ metadata:
   name: customer
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -166,7 +174,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -187,6 +195,8 @@ metadata:
   name: order
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -211,7 +221,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -232,6 +242,8 @@ metadata:
   name: payment
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -256,7 +268,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -277,6 +289,8 @@ metadata:
   name: rating
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -301,7 +315,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -322,6 +336,8 @@ metadata:
   name: location
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -346,7 +362,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -367,6 +383,8 @@ metadata:
   name: inventory
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -391,7 +409,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -412,6 +430,8 @@ metadata:
   name: tax
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -436,7 +456,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -457,6 +477,8 @@ metadata:
   name: promotion
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -481,7 +503,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -502,6 +524,8 @@ metadata:
   name: storefront-bff
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -526,7 +550,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -547,6 +571,8 @@ metadata:
   name: backoffice-bff
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
@@ -571,7 +597,7 @@ spec:
         - name: SERVER_PORT
           value: "8080"
         resources:
-          requests: { memory: "128Mi", cpu: "50m" }
+          requests: { memory: "256Mi", cpu: "100m" }
           limits: { memory: "512Mi", cpu: "500m" }
 ---
 apiVersion: v1
@@ -620,6 +646,8 @@ metadata:
   name: nginx
   namespace: yas-staging
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
